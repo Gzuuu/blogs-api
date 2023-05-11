@@ -20,7 +20,13 @@ const userCreate = async (req, res) => {
     return res.status(201).json({ token });
 };
 
+const getAll = async (_req, res) => {
+    const { message } = await userService.getUsers();
+    return res.status(200).json(message);
+};
+
 module.exports = {
     userLogin,
     userCreate,
+    getAll,
 };
