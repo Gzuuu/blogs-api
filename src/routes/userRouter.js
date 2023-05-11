@@ -14,4 +14,6 @@ userController.userCreate,
 
 router.get('/', tokenMiddleware.validateToken, userController.getAll);
 
+router.get('/:id', tokenMiddleware.validateToken, userController.getById);
+
 module.exports = router;
