@@ -33,8 +33,26 @@ const getPostById = async (req, res) => {
     return res.status(200).json(message);
 };
 
+const updatePost = async (req, res) => {
+    const token = verifyToken(req.headers.authorization);
+
+    const newPost = { 
+        userId: Number(token.data.id),
+        id: Number(req.params.id),
+        title: req.body.title,
+        content: req.body.content,
+    };
+
+    const { type, message } = await postService.updatePost(newPost);
+    if (type && type === 'PERMISSION_DENIED') return res.status(401).json({ message });
+    if (type) return res.status(400).json({ message });
+
+    return res.status(200).json(message);
+};
+
 module.exports = {
     postInsert,
     getPosts,
     getPostById,
+    updatePost,
 };

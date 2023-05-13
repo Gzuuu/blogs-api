@@ -31,8 +31,24 @@ const getById = async (id) => {
     return { type: null, message: post };
 };
 
+const verifyHolder = (post, userId) => post.user.id !== userId;
+
+const updatePost = async ({ userId, id, title, content }) => {
+    const { type, message } = await getById(id);
+    if (type) return { type, message };
+    
+    if (verifyHolder(message, userId)) {
+        return { type: 'PERMISSION_DENIED', message: 'Unauthorized user' };
+    }
+
+    await BlogPost.update({ title, content }, { where: { id } });
+    const post = await getById(id);
+    return { type: null, message: post.message };
+};
+
 module.exports = {
     addBlogPost,
     getAll,
     getById,
+    updatePost,
 };
