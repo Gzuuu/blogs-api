@@ -17,4 +17,10 @@ tokenMiddleware.validateToken,
 postController.getPosts,
 );
 
+router.get(
+'/:id',
+tokenMiddleware.validateToken,
+postController.getPostById,
+);
+
 module.exports = router;

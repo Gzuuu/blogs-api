@@ -18,13 +18,23 @@ const postInsert = async (req, res) => {
     }
 };
 
-const getPosts = async (req, res) => {
+const getPosts = async (_req, res) => {
     const posts = await postService.getAll();
     if (!posts) return res.status(400).json({ message: 'post not found' });
     return res.status(200).json(posts);
 };
 
+const getPostById = async (req, res) => {
+    const id = Number(req.params.id);
+    const { type, message } = await postService.getById(id);
+    if (type) {
+        return res.status(404).json({ message });
+    }
+    return res.status(200).json(message);
+};
+
 module.exports = {
     postInsert,
     getPosts,
+    getPostById,
 };
