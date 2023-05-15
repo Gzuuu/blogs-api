@@ -1,4 +1,4 @@
-const { createToken } = require('../auth/authFunctions');
+const { createToken, verifyToken } = require('../auth/authFunctions');
 const { userService } = require('../service');
 
 const userLogin = async (req, res) => {
@@ -32,9 +32,18 @@ const getById = async (req, res) => {
     return res.status(200).json(message);
 };
 
+const userDelete = async (req, res) => {
+    const token = verifyToken(req.headers.authorization);
+    const id = Number(token.data.id);
+
+    await userService.removeUser(id);
+    return res.sendStatus(204);
+};
+
 module.exports = {
     userLogin,
     userCreate,
     getAll,
     getById,
+    userDelete,
 };

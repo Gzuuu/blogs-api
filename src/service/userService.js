@@ -32,9 +32,12 @@ const getUserById = async (id) => {
     return { type: null, message: user };
 };
 
+const removeUser = async (id) => User.destroy({ where: { id } });
+
 module.exports = {
     findByEmail,
     newUser,
     getUsers,
     getUserById,
+    removeUser,
 };
