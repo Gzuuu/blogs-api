@@ -11,6 +11,8 @@ postMiddleware.verifyPostData,
 postController.postInsert,
 );
 
+router.get('/search', tokenMiddleware.validateToken, postController.findBySearchTerm);
+
 router.get(
 '/',
 tokenMiddleware.validateToken,
