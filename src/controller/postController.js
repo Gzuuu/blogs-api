@@ -50,9 +50,23 @@ const updatePost = async (req, res) => {
     return res.status(200).json(message);
 };
 
+const deletePost = async (req, res) => {
+    const token = verifyToken(req.headers.authorization);
+    const userId = Number(token.data.id);
+    const id = Number(req.params.id);
+
+    const { type, message } = await postService.deletePost(userId, id);
+
+    if (type && type === 'PERMISSION_DENIED') return res.status(401).json({ message });
+    if (type) return res.status(404).json({ message });
+
+    return res.sendStatus(204);
+};
+
 module.exports = {
     postInsert,
     getPosts,
     getPostById,
     updatePost,
+    deletePost,
 };

@@ -30,4 +30,10 @@ postMiddleware.verifyFieldsForUpdate,
 postController.updatePost,
 );
 
+router.delete(
+'/:id',
+tokenMiddleware.validateToken,
+postController.deletePost,
+);
+
 module.exports = router;
